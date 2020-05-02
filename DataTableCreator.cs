@@ -18,14 +18,14 @@ namespace stipsToDataTable
 
     public class DataTableCreator
     {
-        readonly string API_NAME_KNIGHTS = "105_questions";
-
+        public string ApiName { get; set; }
         public DataTable Table { get; }
         readonly NameValueCollection dataMapping;
         HashSet<string> UnmappedDataHeaders { get; set; }
 
-        public DataTableCreator(string tableName)
+        public DataTableCreator(string tableName, string apiName)
         {
+            ApiName = apiName;
             Table = new DataTable(tableName);
             this.dataMapping = ReadDataMappingConfig();
         }
@@ -53,7 +53,7 @@ namespace stipsToDataTable
         {
             try
             {
-                string webAddr = $"http://stips.co.il/api?name={API_NAME_KNIGHTS}&page={page}";
+                string webAddr = $"http://stips.co.il/api?name={ApiName}&page={page}";
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
                 httpWebRequest.Method = "GET";
 

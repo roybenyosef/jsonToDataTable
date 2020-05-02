@@ -11,7 +11,8 @@ namespace stipsToDataTable
         {
             try
             {
-                var dataTableCreator = new DataTableCreator("stips_data_table");
+                //Pass api name as program argument
+                var dataTableCreator = new DataTableCreator("stips_data_table", args[0]);
                 dataTableCreator.PageToDataTable(1);
                 var table = dataTableCreator.Table;
             }
