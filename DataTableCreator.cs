@@ -108,15 +108,22 @@ namespace stipsToDataTable
         {
             foreach (var item in dataRecord.Values())
             {
-                if (item.Type == JTokenType.Object)
+                try
                 {
-                    JObject childJson = JObject.FromObject(item);
-                    WriteDataTableRow(childJson, row);
+                    if (item.Type == JTokenType.Object)
+                    {
+                        JObject childJson = JObject.FromObject(item);
+                        WriteDataTableRow(childJson, row);
+                    }
+                    else
+                    {
+                        CreateColumnIfMissing(item);
+                        row[GetColumnName(item)] = GetItemValue(item);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    CreateColumnIfMissing(item);
-                    row[GetColumnName(item)] = GetItemValue(item);
+                    Console.WriteLine($"Error processing item with column: {GetColumnName(item)}, type: {item.Type}, value: {item.Path}, error: {e.Message}");
                 }
                 //Console.WriteLine($"type: {item.Type}, value: {item.Path}");
             }
